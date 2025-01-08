@@ -31,8 +31,8 @@ template<typename V> class TableEntry {
 			return false;
 		};
 		friend std::ostream&operator<<(std::ostream &out, const TableEntry<V> &te){
-			out << "Clave: " << te.key;
-			out << ", Valor: " << te.value;
+			out << te.key;
+			out << te.value;
 			return out;
 		};
 
