@@ -1,109 +1,91 @@
-#ifndef HASHTABLE_H
+#ifdef HASHTABLE_H
 #define HASHTABLE_H
 
-#include <ostream>
-#include <stdexcept>
+#include "/mnt/c/Users/Usuario/Desktop/Programacion_segundo/Pro_avanzada/Practica_1/ListLinked.h"
 #include "Dict.h"
 #include "TableEntry.h"
-#include "../../P1/PRA_2425_P1/ListLinked.h"  // ¡¡¡¡MODIFICAR!!!! asegúrate de que la ruta es correcta
+#include <ostream>
+#include <stdexcept>
+#include <iostream>
+#include <string>
 
-template <typename V>
-class HashTable : public Dict<V> {
+typename<typename V>
+class HashTable<V> : Dict<V> {
 	private:
-    		int n; // Número de elementos almacenados actualmente en la tabla hash
-    		int max; // Tamaño de la tabla hash (número total de cubetas)
-    		ListLinked<TableEntry<V>>* table; // Tabla de cubetas, representada por un array de punteros a listas enlazadas
-
-    		// Función hash que devuelve la posición (cubeta) en la tabla hash de key
-    		int h(std::string key) {
-        		int sum = 0;
-        		for (char c : key) {
-            			sum += static_cast<int>(c);
-        		}
-        		return sum % max;
-    		}
-
+		int n;
+		int max;
+		ListLinked<TableEntry<V>> *table;
+		int h(std::string key){
+			int sum = 0;
+			size_str = key.size();
+			for( int i = 1; i <= size_str; ++i){
+				char aux = key.at(i)
+				sum = sum + std:string::int(aux);
+			}
+			pos = sum % max;
+			return pos;
+		};
 	public:
-    		// Método constructor
-    		HashTable(int size) : n(0), max(size) {
-        		table = new ListLinked<TableEntry<V>>[max];
-    		}
+		HashTable(int size){
+			n = 0;
+			max = size;
+			table = new ListLinked<TableEntry<V>>[max];
+		};
+		~HashTable(){
+			detele[] table;;
+		};
+		int capacity(){
+			return max;
+		};
 
-    		// Método destructor
-    		~HashTable() {
-        		delete[] table;
-    		}
-
-    		// Devuelve el número total de cubetas de la tabla
-    		int capacity() {
-        		return max;
-    		}
-
-    		// Sobrecarga del operador []
-    		V operator[](std::string key) {
-        		int index = h(key);
-        		// Utilizar iteradores específicos de ListLinked
-        		for (auto it = table[index].begin(); it != table[index].end(); ++it) {
-            			if (it->key == key) {
-                			return it->value;
-            			}
-        		}
-        		throw std::runtime_error("Key not found");
-    		}
-
-    		// Implementación de los métodos de Dict<V>
-    		void insert(std::string key, V value) override {
-        		int index = h(key);
-        		// Utilizar iteradores específicos de ListLinked
-        		for (auto it = table[index].begin(); it != table[index].end(); ++it) {
-            			if (it->key == key) {
-                			throw std::runtime_error("Key already exists");
-            			}
-        		}
-        		table[index].insert(TableEntry<V>(key, value));
-        		n++;
-    		}
-
-    		V search(std::string key) override {
-        		int index = h(key);
-        		// Utilizar iteradores específicos de ListLinked
-        		for (auto it = table[index].begin(); it != table[index].end(); ++it) {
-            			if (it->key == key) {
-                			return it->value;
-            			}
-        		}
-        		throw std::runtime_error("Key not found");
-    		}
-
-    		V remove(std::string key) override {
-        		int index = h(key);
-        		// Utilizar iteradores específicos de ListLinked
-        		for (auto it = table[index].begin(); it != table[index].end(); ++it) {
-            			if (it->key == key) {
-                			V value = it->value;
-                			table[index].erase(it);
-                			n--;
-                			return value;
-            			}
-        		}
-        		throw std::runtime_error("Key not found");
-    		}
-
-    		int entries() override {
-        		return n;
-    		}
-
-    		// Sobrecarga del operador << con declaración de plantilla
-		friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &ht) {
-    			for (int i = 0; i < ht.max; ++i) {
-        			out << "Cubeta " << i << ": ";
-        			for (auto it = ht.table[i].begin(); it != ht.table[i].end(); ++it) {
-            				out << *it << " ";
-        			}
-        			out << "\n";
-    			}
-    			return out;
-		}
+		friend std::ostream&operator<<(std::ostream out, const HashTable<V> &th){
+			out << "Contenido de las cubetas de la tabla: \n";
+			for(int i = 0;i < th.max; i++){
+				out << th.table[i] << "\n";
+			}
+			return out
+		};
+		V operator[](std::string key){
+			int pos = h(key);
+			confir = table[pos].search(TableEntry<V>(key)); // Search para vee si existe la clave // 
+			if(confir == -1){
+				throw std::runtime_error("LLave no encontrada")
+			}
+			return table[pos][confir].value;
+		};
+		void insert(std::string key, V value) override{
+			int pos = h(key);
+			confir = table[pos].search(TableEntry<V>(key));
+			if(confir != -1){
+				throw std::runtime_error("La llave ya existe");
+			}
+			TableEntry<V> Cubeta_nueva(key, value);
+			table[pos].prepend(Cubeta_nueva);
+			n++;
+		};
+		V search(std::string key) override{
+			int pos = h(key);
+			confir = table[pos].search(TableEntry<V>(key));
+			if(confir == -1){
+				throw std::runtime_error("llave no encontrada");
+			}
+			return confir;
+		};
+		V remove(std::string key) override{
+			int pos = h(key);
+			confir = table[pos].search(TableEntry<V>(key));
+			if(confir == -1){
+				throw std::runtime_error;
+			}
+			V data_eliminada = table[pos][confir].value;
+			table[pos].remove();
+			n--;
+			return data_eliminada;
+		};
+		int entries() override{
+			return n;
+		};
 };
-#endif // HASHTABLE_H
+
+#endif
 
