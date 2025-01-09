@@ -44,7 +44,7 @@ public:
                 throw std::runtime_error("Key already exists in the hash table.");
             }
         }
-        table[index].insert_end(entry);
+        table[index].insert(entry);
         ++n;
     }
 
