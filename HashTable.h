@@ -92,13 +92,17 @@ public:
 
     // Sobrecarga del operador <<
     friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &ht) {
+        out << "HashTable [entries: " << ht.n << ", capacity: " << ht.max << "]\n";
+        out << "==============\n";
         for (int i = 0; i < ht.max; ++i) {
-            out << "Cubeta " << i << ": ";
+            out << "== Cubeta " << i << " ==\n\n";
+            out << "List => [\n";
             for (int j = 0; j < ht.table[i].size(); ++j) {
-                out << ht.table[i].get(j) << " ";
+                out << "  " << ht.table[i].get(j) << "\n";
             }
-            out << std::endl;
+            out << "]\n\n";
         }
+        out << "==============\n";
         return out;
     }
 };
