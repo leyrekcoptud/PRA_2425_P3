@@ -15,7 +15,7 @@ private:
     // Método recursivo para la búsqueda de elementos
     BSNode<T>* search(BSNode<T>* n, T e) const {
         if (n == nullptr) {
-            throw std::runtime_error("Element not found");
+            throw std::runtime_error("Element not found!");
         }
         if (e < n->elem) {
             return search(n->left, e);
@@ -36,7 +36,7 @@ private:
         } else if (e > n->elem) {
             n->right = insert(n->right, e);
         } else {
-            throw std::runtime_error("Element already exists");
+            throw std::runtime_error("Element already exists!");
         }
         return n;
     }
@@ -44,7 +44,7 @@ private:
     // Método recursivo para la eliminación de elementos
     BSNode<T>* remove(BSNode<T>* n, T e) {
         if (n == nullptr) {
-            throw std::runtime_error("Element not found");
+            throw std::runtime_error("Element not found!");
         }
         if (e < n->elem) {
             n->left = remove(n->left, e);
