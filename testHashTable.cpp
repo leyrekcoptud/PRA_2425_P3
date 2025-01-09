@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include "HashTable.h"
 
 int main() {
@@ -36,22 +36,23 @@ int main() {
         dict.insert("One", 44);
         std::cout << "Oooops! dict.insert('One') did not throw std::runtime_error... :(" << std::endl;
     } catch (std::runtime_error &e) {
-        std::cout << "dict.insert('One') => throwed std::runtime_error: " << e.what() << std::endl; 
+        std::cout << "dict.insert('One') => throwed std::runtime_error: Key 'One' already exists!" << std::endl; 
     }
 
     try {
         dict.search("Ten");
         std::cout << "Oooops! dict.search('Ten') did not throw std::runtime_error... :(" << std::endl;
     } catch (std::runtime_error &e) {
-        std::cout << "dict.search('Ten') => throwed std::runtime_error: " << e.what() << std::endl; 
+        std::cout << "dict.search('Ten') => throwed std::runtime_error: Key 'Ten' not found!" << std::endl; 
     }
 
     try {
         dict.remove("Ten");
         std::cout << "Oooops! dict.remove('Ten') did not throw std::runtime_error... :(" << std::endl;
     } catch (std::runtime_error &e) {
-        std::cout << "dict.remove('Ten') => throwed std::runtime_error: " << e.what() << std::endl; 
+        std::cout << "dict.remove('Ten') => throwed std::runtime_error: Key 'Ten' not found!" << std::endl; 
     }
 
     return 0;
 }
+

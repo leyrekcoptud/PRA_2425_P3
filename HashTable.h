@@ -44,7 +44,7 @@ public:
                 throw std::runtime_error("Key already exists in the hash table.");
             }
         }
-        table[index].insert(table[index].size(), entry); // Insertar al final
+        table[index].insert(0, entry); // Insertar al inicio
         ++n;
     }
 
@@ -93,14 +93,16 @@ public:
     // Sobrecarga del operador <<
     friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &ht) {
         out << "HashTable [entries: " << ht.n << ", capacity: " << ht.max << "]\n";
-        out << "==============\n";
+        out << "==============\n\n";
         for (int i = 0; i < ht.max; ++i) {
             out << "== Cubeta " << i << " ==\n\n";
             out << "List => [\n";
             for (int j = 0; j < ht.table[i].size(); ++j) {
-                out << "  " << ht.table[i].get(j) << "\n";
+                out << "  " << ht.table[i].get(j);
+                if (j < ht.table[i].size() - 1) out << "\n";
             }
-            out << "]\n\n";
+            if (ht.table[i].size() == 0) out << "]";
+            out << "\n]\n\n";
         }
         out << "==============\n";
         return out;
